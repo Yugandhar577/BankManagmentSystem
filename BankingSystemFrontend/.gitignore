@@ -1,0 +1,24 @@
+# --- .gitignore for React / Node.js ---
+
+# Node.js dependencies
+/node_modules/
+
+# Production build directory
+/build/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+
+# IDE settings files
+.idea/
+.vscode/
+
+# Operating System files
+.DS_Store
+Thumbs.db

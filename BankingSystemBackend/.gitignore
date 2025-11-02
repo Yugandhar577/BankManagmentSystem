@@ -1,0 +1,21 @@
+# --- .gitignore for Java / Maven ---
+
+# Compiled Java class files
+*.class
+
+# Log files
+*.log
+
+# Maven build directory
+/target/
+
+# IDE settings files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# Operating System files
+.DS_Store
+Thumbs.db
