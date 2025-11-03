@@ -1,20 +1,20 @@
+// --- src/App.js ---
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-
-// Common Components
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/common/Navbar';
+import Footer from './components/common/Footer';
 import ProtectedRoute from './components/common/ProtectedRoute';
 
 // Pages
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
+import HomePage from './pages/HomePage';
 
 // Customer Components
 import Dashboard from './components/customer/Dashboard';
 import Deposit from './components/customer/Deposit';
-import Withdraw from './components.customer/Withdraw';
+import Withdraw from './components/customer/Withdraw';
 import Transfer from './components/customer/Transfer';
 import TransactionHistory from './components/customer/TransactionHistory';
 
@@ -25,66 +25,63 @@ import AllTransactions from './components/admin/AllTransactions';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Navbar />
-        <main className="container">
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow container mx-auto p-4 md:p-8">
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
-            {/* Customer Routes (Protected) */}
-            <Route path="/dashboard" element={
-              <ProtectedRoute roles={['CUSTOMER']}>
-                <Dashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/deposit" element={
-              <ProtectedRoute roles={['CUSTOMER']}>
-                <Deposit />
-              </ProtectedRoute>
-            } />
-            <Route path="/withdraw" element={
-              <ProtectedRoute roles={['CUSTOMER']}>
-                <Withdraw />
-              </ProtectedRoute>
-            } />
-            <Route path="/transfer" element={
-              <ProtectedRoute roles={['CUSTOMER']}>
-                <Transfer />
-              </ProtectedRoute>
-            } />
-            <Route path="/history" element={
-              <ProtectedRoute roles={['CUSTOMER']}>
-                <TransactionHistory />
-              </ProtectedRoute>
-            } />
+          {/* Customer Routes */}
+          <Route
+            path="/dashboard"
+            element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
+          />
+          <Route
+            path="/deposit"
+            element={<ProtectedRoute><Deposit /></ProtectedRoute>}
+          />
+          <Route
+            path="/withdraw"
+            element={<ProtectedRoute><Withdraw /></ProtectedRoute>}
+          />
+          <Route
+            path="/transfer"
+            element={<ProtectedRoute><Transfer /></ProtectedRoute>}
+          />
+          <Route
+            path="/history"
+            element={<ProtectedRoute><TransactionHistory /></ProtectedRoute>}
+          />
 
-            {/* Admin Routes (Protected) */}
-            <Route path="/admin" element={
-              <ProtectedRoute roles={['ADMIN']}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/users" element={
-              <ProtectedRoute roles={['ADMIN']}>
-                <UserManagement />
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/transactions" element={
-              <ProtectedRoute roles={['ADMIN']}>
-                <AllTransactions />
-              </ProtectedRoute>
-            } />
-
-            {/* Catch-all and Redirects */}
-            <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </main>
-      </Router>
-    </AuthProvider>
+          {/* Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly={true}><AdminDashboard /></ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute adminOnly={true}><UserManagement /></ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/transactions"
+            element={
+              <ProtectedRoute adminOnly={true}><AllTransactions /></ProtectedRoute>
+            }
+          />
+          
+          {/* 404 Not Found */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
   );
 }
 
